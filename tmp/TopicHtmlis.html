@@ -1,0 +1,279 @@
+<br /><br />
+<?
+
+#########PAGE ############
+if($pg==0 or empty($pg)){
+$limit="LIMIT 0,35";
+}else{
+$x = ($pg * 35);
+$limit="LIMIT $x,$x";
+}
+if(level_is()=="96" OR level_is() == "55" OR level_is() == "14" ){
+	$select_topics = @mysql_query("select * from {$prefix_start}topic{$prefix_end} where id='".@intval($topic)."' LIMIT 1 "); // prob here ok !
+}else{
+	$select_topics = @mysql_query("select * from {$prefix_start}topic{$prefix_end} where id='".@intval($topic)."' and status ='1' and hidestatus ='0' LIMIT 1 ");
+
+}
+##########		END PAGE	#########
+if(@mysql_num_rows($select_topics)>0){
+$fetch_topics = @mysql_fetch_array($select_topics);
+//$icons.
+?>
+<div id="Tforum" class='Tforum'>
+<img src='<? echo @forum('icon',$fetch_topics['reli']);?>' />
+<a class="urlforum" href="forum<? echo intval($fetch_topics['reli']);?>.html" ><? echo @forum('title',$fetch_topics['reli']);?></a>
+</div>
+<table  width="100%" cellpadding="0" cellspacing="0">
+<tr >
+<td  class="forum">
+<center><font face="tahoma" color="white" size="2"><? echo protection($fetch_topics['title']);?>
+</td>
+</tr>
+<tr>
+<td class="topictext">
+<table  width="100%">
+<tr  height="100%" >
+<td class="infos"   rowspan="2" width="17%" >
+<table width="100%" height="100%">
+<tr>
+<td id="Tmember" width="100%" height="230px">
+<div id="Tforum"  onmouseover="javascript:titles('',['x','q']);" style="width:135px;height:12px; text-align:center; position:relative;">
+<?=@member_inf($fetch_topics['writer']);?>
+<img style="position:absolute;left:2px;" id="book"  src="<?=$icons;?>/Manual.png"  />
+</div>
+<span id="titles" class="titles" ></span>
+<div id="Tforum" style="width:135px;height:230px;">
+<?PHP $va = @member($fetch_topics['writer'],"topic") + @member($fetch_topics['writer'],"post");?>
+<font size="1" color="red">„‘«—ﬂ« : <? echo $va ;?>
+<br />
+‰ﬁ«ÿ «· „Ì“ : <? echo intval($fetch_topics['suprnum']);?></font><br />
+<? @stars($fetch_topics['writer']);?><br />
+<?PHP if(member($fetch_topics['writer'],"img")){ ?>
+<img src="<?=member($fetch_topics['writer'],"img");?>" style="width:130px;height:165px;" />
+<?PHP }else{ ?><img src="img.png" style="width:130px;height:165px;" /><?PHP }?>
+</div>
+</td>
+</tr><tr>
+<td>
+</td>
+</tr>
+</table>
+</td>
+<td class="infos"   width="83%" height="32px">
+<div style="text-align:right;">
+<?if( intval($fetch_topics['writer']) == member_on("id") OR level_is() == "96" ){?>
+<a href="edit<?=@intval($topic);?>.html" class="topfun" ><img src="styles_f/images/icons/edit.png" /></a>
+<?}?>
+<a href="member<?=intval($fetch_topics['writer']);?>.html" class="topfun" ><img src="styles_f/images/icons/Contacts.png" /></a>
+<? if($Ccondition->repcond()){
+#<a href="#" class="topfun" ><img src="styles_f/images/icons/Mail New.png" /></a>
+if(@Topic("lockstatus",$topic)){?><a href="unclose<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/unlock.png" /></a>
+<?}else{?><a href="close<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/lock.png" /></a><?}?>
+<?if(@Topic("hidestatus",$topic)){?><a href="unhide<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/dishide.png" /></a>
+<?}else{?><a href="hide<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/hide.png" /></a><?}?>
+<?if(@Topic("pinstatus",$topic)){?><a href="unpin<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/pin--minus.png" /></a>
+<?}else{?><a href="pin<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/pin--plus.png" /></a><?}?>
+<?if(@Topic("status",$topic) == 0){?><a href="ontopi<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/Shortkey.png" /></a>
+<?}?>
+<a href="star<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/ton.png" /></a>
+
+<?if(level_is() == "55" OR level_is() == "96"){
+if(@Topic("status",$topic) == 1){?>
+<a href="deleteT<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/dele.png" /></a>
+<?}else{if(level_is() == "96"){?>
+<a href="backT<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/delet.png" /></a>
+<?}}
+if(@Topic("status",$topic) != 3){
+?>
+<a href="addpub<?=$topic;?>.html" class="topfun" ><img src="styles_f/images/icons/Home.png" /></a>
+<?}
+}}?>
+</div>
+</td>
+</tr>
+<tr  height="100%">
+<td class="topictext"  width="83%" height="250px">
+<div style="width:100%;">
+&nbsp;&nbsp;<?=@editor($fetch_topics["contenu"]);?>
+</div>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+<?PHP
+if(level_is()== 96 OR level_is() == 55 OR level_is() == 14 ){
+	@define("where"," ");
+}else @define("where"," and status='1' and hidestatus='0' ");	
+$replie_select = @mysql_query("select * from {$prefix_start}replie{$prefix_end} where reli='".@intval($topic)."' ".where." ORDER BY id ASC,date ASC,time ASC $limit ");
+?>
+<!--start Replies HTML -->
+
+<?if(@mysql_num_rows($replie_select)>0){
+?>
+<tr>
+<td  class="forum"><center><b>«·—œÊœ </td>
+</tr>
+<?
+while($fReplie = @mysql_fetch_array($replie_select)){?>
+<tr>
+<td class="topictext">
+<table  width="100%">
+<tr  height="100%" >
+<td class="infos"  <?PHP if( (intval($fReplie["status"]) == 0) OR (intval($fReplie["delstatus"]) == 1) OR(intval($fReplie["hidestatus"]) == 1 and intval($fReplie["delstatus"]) != 1)) {?> rowspan="3"<?PHP }else{?>rowspan="2"<?PHP }?> width="17%" >
+<table width="100%" height="100%">
+<tr>
+<td id="Tmember" width="100%" height="230px">
+<div id="Tforum" onmouseover="javascript:titles('<?=intval($fReplie["id"]);?>',<?PHP if($fReplie["writer"] == @member_on("id")) echo 'member_titles';else{ echo('[');@titles(member($fReplie["writer"],"titles"));echo(']');} ?>);"  style="width:135px;height:12px; text-align:center; position:relative;">
+<?=@member_inf($fReplie["writer"]);?>
+<img style="position:absolute;left:2px;" id="book<?=intval($fReplie["id"]);?>"  src="<?=$icons;?>/Manual.png"  />
+</div>
+<span id="titles<?=intval($fReplie["id"]);?>" class="titles"></span>
+<div id="Tforum" style="width:135px;height:230px;">
+<font size="1" color="red">„‘«—ﬂ« : <?=(@member($fReplie["writer"],"post")+@member($fReplie["writer"],"topic"));?>
+<br />
+‰ﬁ«ÿ «· „Ì“ :<?=@member($fReplie["writer"],"suprnum");?></font><br />
+<? @stars($fetch_topics['writer']);?><br />
+<?PHP if(member($fReplie['writer'],"img")){ ?>
+<img src="<?=member($fReplie['writer'],"img");?>" style="width:130px;height:165px;" />
+<?PHP }else{ ?><img src="img.png" style="width:130px;height:165px;" /><?PHP }?>
+</div>
+</td>
+</tr><tr>
+<td>
+</td>
+</tr>
+</table>
+</td>
+<td  class="infos" width="83%" height="32px">
+<div style="height:100%;text-align:right;">
+<a href="member<?=intval($fetch_topics['writer']);?>.html" class="topfun" ><img src="styles_f/images/icons/Contacts.png" /></a>
+<?if( intval($fReplie['writer']) == member_on("id") OR level_is() == "96" ){?>
+<a href="editreplie-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/edit.png" /></a><?}?>
+<?PHP #<a href="#" class="topfun" ><img src="styles_f/images/icons/Contacts.png" /></a> ‰Ÿ«„ —”«∆· ==| ≈—”«· —”«·… ··≈‘—«› ?>
+<? if($Ccondition->repcond()){
+#<a href="#" class="topfun" ><img src="styles_f/images/icons/Mail New.png" /></a>
+ if(intval($fReplie["hidestatus"]) == 0) {?>
+<a href="hidereplie-<?=intval($fReplie['reli']);?>-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/hide.png" /></a>
+<?PHP }else{?>
+<a href="unhidereplie-<?=intval($fReplie['reli']);?>-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/dishide.png" /></a>
+<?PHP } 
+ if(intval($fReplie["status"]) == 0) {?>
+<a href="setreplie-<?=intval($fReplie['reli']);?>-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/Shortkey.png" /></a>
+<?PHP } ?>
+<?PHP if(intval($fReplie["delstatus"]) == 1 and level_is() == "96") {?>
+<a href="backreplie-<?=intval($fReplie['reli']);?>-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/delet.png" /></a>
+<?PHP } ?>
+<?}?>
+<?if((intval($fReplie['writer']) == member_on("id") OR level_is() == "96") and intval($fReplie["delstatus"]) == 0){?><a href="deletreplie-<?=intval($fReplie['reli']);?>-<?=intval($fReplie['id']);?>.html" class="topfun" ><img src="styles_f/images/icons/dele.png" /></a><?}?>
+</div>
+</td>
+</tr>
+<?PHP if(intval($fReplie["status"]) == 0) {?><tr><td class="notyet" >Â–« «·—œ ·„ Ì „ «·„Ê«›ﬁ ⁄·ÌÂ »⁄œ „‰ ÿ—› «·≈‘—«›° Ì—ÃÏ «·«‰ Ÿ«— ﬁ·Ì·« ...</td></tr><?PHP } ?>
+<?PHP if(intval($fReplie["hidestatus"]) == 1 and intval($fReplie["delstatus"]) == 0) {?><tr><td class="notyet" >Â–« «·—œ „Œ›Ì</td></tr><?PHP } ?>
+<?PHP if(intval($fReplie["delstatus"]) == 1) {?><tr><td class="notyet" >Â–« —œ „Õ–Ê› Ê·« Ì„ﬂ‰ «” —Ã«⁄Â ≈·« „‰ ÿ—› «·≈œ«—…...</td></tr><?PHP } ?>
+<tr  height="100%">
+<td class="topictext"width="83%" height="250px">
+<div style="width:100%;">
+&nbsp;&nbsp;<?=@editor($fReplie["contenu"]);?>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<!--END Replies -->
+<?
+}
+
+} @mysql_free_result($replie_select);
+if($Ccondition->repcond() or @member_on("id")>0 and Topic("lockstatus",$topic,"") == 0){
+?>
+<tr  height="100%">
+<td class="topictext" colspan="2" width="100%" height="250px"><center>
+<form method="POST" name="replieditor" action="Replie-<?=intval($topic);?>.html">
+<fieldset style="width:867px">
+<legend><font color="#CC0000" face="tahoma" size="2"><b> Õﬂ„ ›Ì «·‰’</b></font></legend>
+<center>
+<a class="editor"href="javascript:editorCommand('replie', 'StrikeThrough', '');"><img title="Œÿ „‘ÿÊ»" src="edicons/strike.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'italic', '');"><img title="Œÿ „«∆·" src="edicons/I.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'underline', '');"><img title=" ”ÿÌ— ⁄·Ï «·Œÿ" src="edicons/U.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'bold', '');"><img title="Œÿ €·ÌŸ" src="edicons/B.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyright', '');"><img title=" ‰”Ìﬁ Ì„Ì‰" src="edicons/right.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifycenter', '');"><img title=" ‰”Ìﬁ Ê”ÿ" src="edicons/center.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyleft', '');"><img title=" ‰”Ìﬁ Ì”«—" src="edicons/left.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyfull', '');"><img title=" ‰”Ìﬁ ⁄«œÌ" src="edicons/justify.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'copy', '');"><img title="‰”Œ" src="edicons/copie.png"/></a>
+<br />
+<select  class="select" onchange="javascript:editorCommand('replie', 'FontSize',this.value)">
+ <option>ÕÃ„ «·Œÿ</option>
+ <option value="2">2</option>
+ <option value="3">3</option>
+ <option value="4">4</option>
+ <option value="5">5</option>
+ <option value="6">6</option>
+  <option value="7">7</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('replie', 'Fontname',this.value)">
+ <option>‰„ÿ «·Œÿ</option>
+ <option value="arial"  style="font-family:arial;">arial</option>
+ <option value="tahoma"  style="font-family:tahoma;">Tahoma</option>
+ <option value="courier"  style="font-family:courier;">courier</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('replie', 'ForeColor',this.value)">
+ <option>√·Ê«‰ «› —«÷Ì…</option>
+ <option value="000000" style="color:#000000;">√”Êœ</option>
+ <option value="FFFFFF"style="color:#FFFFFF;">√»Ì÷</option>
+ <option value="800000"style="color:#800000;">»‰Ì</option>
+ <option value="FF0000"style="color:#FF0000;">√Õ„—</option>
+ <option value="FF00FF"style="color:#FF00FF;">Ê—œÌ</option>
+ <option value="FF99CC"style="color:#FF99CC;">Ê—œÌ ›« Õ</option>
+ <option value="FF6600"style="color:#FF6600;">»— ﬁ«·Ì</option>
+ <option value="FFCC00"style="color:#FFCC00;">»— ﬁ«·Ì „’›—</option>
+ <option value="99CC00"style="color:#99CC00;">√Œ÷— „’›—</option>
+ <option value="FFFF00"style="color:#FFFF00;">√’›—</option>
+ <option value="008000"style="color:#008000;">√Œ÷— œ«ﬂ‰</option>
+ <option value="00FF00"style="color:#00FF00;">√Œ÷—</option>
+ <option value="0000FF"style="color:#0000FF;">√“—ﬁ</option>
+ <option value="00CCFF"style="color:#00CCFF;">√“—ﬁ ”„«ÊÌ</option>
+ <option value="800080"style="color:#800080;">»‰›”ÃÌ</option>
+ <option value="808080"style="color:#808080;">—„«œÌ</option>
+ </select>
+</center><br />
+ </fieldset><br /><br />
+  &nbsp; <script>displayEditor('replie', '', 770, 300);</script>
+  <br />
+  <input class="buton" type="submit" size="34" value="≈÷«›… —œ ÃœÌœ" OnClick="javascript:sendvalue('replie','replio');" style="width:123px;"/>
+  <textarea cols="0" rows="0" style="display:none;" name="replie" id="replio"></textarea>
+  <? $_SESSION["areplie"] = true; ?>
+  </form>
+  <br />
+  <b><font color="red"> «·’›Õ«  :</font></b><?=@ThePage("replie","reli",$topic,35,"topic$topic-")?><br /><br />
+</td>
+</tr>
+<?}?>
+</table>
+<?}else{?>
+<table  width="100%" cellpadding="0" cellspacing="0">
+<tr >
+<td  class="forum">
+<center><font face="tahoma" color="white" size="2">—”«·… ≈œ«—Ì…
+</td>
+</tr>
+<tr>
+<td class="infos">
+<center><b><pre>
+«·„Ê÷Ê⁄ «·„ÿ·Ê» €Ì— „ Ê›— ° ﬁœ  ﬂÊ‰ Â‰«·ﬂ ⁄œ… √”»«» ·–·ﬂ :
+<img src="<? echo $icons ;?>infoo.png"/> —ﬁ„ «·„Ê÷Ê⁄ «·„ÿ·Ê» €Ì— „ Ê›— .
+<img src="<? echo $icons ;?>infoo.png"/> «·„Ê÷Ê⁄ «·–Ì  —Ìœ œŒÊ· ·Â „Õ–Ê› √Ê „Ã„œ .
+<img src="<? echo $icons ;?>infoo.png"/> «·„Ê÷Ê⁄ «·–Ì  —Ìœ œŒÊ· ·Â „Œ›Ì Ê ·Ì” ·ﬂ «·Õﬁ ›Ì œŒÊ· ≈·ÌÂ .
+<img src="<? echo $icons ;?>true.png"/> ≈‰ ﬂ«‰ «·„Ê÷Ê⁄ «·„ÿ·Ê» „ Ê›— Ê ·„  ” ÿ⁄ œŒÊ· ·Â Ì—ÃÏ „—«”·… «·≈œ«—… »«·√„— · ’·ÌÕ «·Œ·· .
+
+</pre></b>
+</td>
+</tr>
+</table>
+<?
+redirect2("islam.html");
+}?><br /><Br />

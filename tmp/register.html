@@ -1,0 +1,197 @@
+<br /><br />
+
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«б… ≈ѕ«—н…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<? if(empty($register)){?>
+
+<pre>
+<font color="red">
+ »”г «ббе «б—Ќгд «б—Ќнг
+«б”б«г Џбняг ж —Ќг… «ббе  Џ«бм ж »—я« е</font>
+√ќн √ж √ќ н ° б ”ћнб Ён гд ѕн«  ≈”б«г д  Џбня √д  ёжг »ё—«Ѕ… «б‘—жЎ «б «бн… » гЏд
+Ћг нгядя «бгж«Ёё… Џбне№« гд ќб«б «б√нёжд… √”Ёбе
+
+ <font color="red">дбЁ  ≈д »«ея ≈бм √д «бёж«днд «бг—Ёжё… »№<img src="<? echo $icons ;?>false.png" /> гег… ћѕ« .</font>
+
+ 
+<img src="<? echo $icons ;?>false.png" /> «бгд ѕм г»дн Џбм «”«” «б≈”б«г ° ж « »«Џ √еб «б”д… ж «бћг«Џ… ° б–« «н г‘«—я…  г” »«бѕнд ” Џ—÷я бЏѕ… Џёж»«  .
+
+
+<img src="<? echo $icons ;?>true.png" /> √жб ‘нЅ нћ» «д  Џбге еж √дд« б« дћ»—я Џбм  гн“ »«бгд ѕн«  »Џѕ  ”ћнбя .
+
+<img src="<? echo $icons ;?>true.png" /> бян  ёжг »«б ”ћнб нћ» Џбня ≈ќ н«— ≈”г бЏ÷жн я гЏд№« ° жбн” ÷—ж—н« √д няжд ≈”гя «бЌёнён
+
+<img src="<? echo $icons ;?>true.png" /> »«бгж«Ёё… Џбм е–е «б‘—жЎ Ё≈дя  гдЌд« «бЌё «бя«гб Ён Ќ–Ё ж≈ќЁ«Ѕ √н г‘«—я… гќ«бЁ… ёг  »Ў—Ќе№«
+
+<img src="<? echo $icons ;?>true.png" /> дбЁ  ≈д »«еяг ≈бм √д «бг‘«—я«  «бгЎ—жЌ…  Џ»— Џд жће… дў— «бя№« » ЁёЎ
+
+<img src="<? echo $icons ;?>true.png" /> нгдЏ д‘— √н —«»Ў бгд ѕм √ж гжёЏ ¬ќ— гег№« я«д «б”»» ё»б «бЌ’жб Џбм «бгж«Ёё… «бг»«‘—… гд «б≈ѕ«—… ж√н —«»Ў нЏ—÷ ’«Ќ»… ббЎ—ѕ «бг»«‘—
+
+<img src="<? echo $icons ;?>true.png" /> нгдЏ ж÷Џ ’ж— гќб… »«б¬ѕ«» б√д «бгд ѕм г”бг жн”н— Ќ”»  Џ«бнг «бѕнд «б≈”б«гн
+
+
+</pre>
+<button class="buton" onclick="self.location.href='registerok.html'">гж«Ёё</button>
+&nbsp; 
+<button class="buton" onclick="javascript:alert('б« нгядя «б ”ћнб ≈д бг  ж«Ёё Џбм «бёж«днд ж ‘—жЎ «б ”ћнб.');">џн— гж«Ёё</button>
+<?}elseif($register == "yes"){?>
+<form method="post" name="regi" action="wreg.html">
+<pre>
+<font color="red">
+ »”г «ббе «б—Ќгд «б—Ќнг
+«б”б«г Џбняг ж —Ќг… «ббе  Џ«бм ж »—я« е</font>
+√еб« ж ”еб« »я Ён ’ЁЌ… «б ”ћнб :
+
+<table width="52%" cellpadding="2" cellspacing="2">
+<tr >
+<td class="register" width="152px" height="28px"><center>«б≈”г</td>
+<td class="regis" ><center><input name="member_name" size="42" /></td>
+</tr>
+
+<tr >
+<td class="register" width="152px" height="28px"><center>«бябг… «б”—н…</td>
+<td class="regis" ><center><input name="member_pass" type="password" size="42" /></td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>≈Џ«ѕ… «бябг… «б”—н…</td>
+<td class="regis" ><center><input name="member_passe" type="password" size="42" /></td>
+</tr>
+
+
+<tr >
+<td class="register" width="152px" height="28px"><center>«б»—нѕ «б«бя —ждн</td>
+<td class="regis" ><center><input name="member_email"  size="42" />
+</td>
+</tr>
+
+<tr >
+<td class="register" width="152px" height="28px"><center>«бћд”</td>
+<td class="regis" ><center>
+<SELECT name="sex">
+<option value="male">–я—</option>
+<option value="female">√дЋм</option>
+</select>
+</td>
+</tr>
+<tr >
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+?></td>
+<td class="regis" ><center>
+<input name="captcha" size="42" Onclick="document.regi.captcha.value='';" value="√я » «бяжѕ «бгё«»б ед«"/>
+</td>
+</tr>
+<tr >
+<td class="regis" colspan="2" ><center>
+<input class="buton" type="submit" value="≈—”«б"/> &nbsp;&nbsp; <input class="buton" type="reset" value=" Ё—нџ"/>
+</td>
+</tr>
+<? $_SESSION["captcha_is"] = $captcha ; ?>
+</table>
+</form>
+<?}elseif($register=="insert"){
+?>
+<pre>
+<font color="454545">
+<?
+
+$name_reg = @protection_simple($_POST["member_name"]);
+$pass_reg = md6($_POST["member_pass"]);
+$password_reg = md6($_POST["member_passe"]);
+$email_reg = @protection_simple($_POST["member_email"]);
+$sex_reg = @protection_simple($_POST["sex"]);
+$captch_register = @protection_simple($_POST["captcha"]);
+if($_SESSION["captcha_is"] == $captch_register){
+
+   if(empty($name_reg) or empty($pass_reg) or empty($password_reg) or empty($email_reg) or empty($sex_reg) ){
+   
+   echo "бёѕ  —я  «Ќѕм «бќ«д«  Ё«—џ… ° ж »е–« «б‘яб 
+   бд  ” ЎнЏ «б ”ћб °
+   » жЁнё 
+   ";
+redirect2("register.html");
+$_SESSION["captcha_is"] = "";
+session_destroy();
+
+   }else{
+   if($pass_reg != $password_reg){
+   echo "«бябг… «б”—н… џн— г Ў«»ё…  °
+   н—ћм ≈Џ«ѕ… ≈ѕќ«б дЁ” «бябг… «б”—н…°
+   »«б жЁнё .";
+redirect2("register.html");
+   $_SESSION["captcha_is"] = "";
+session_destroy();
+   }else{
+   if(!VerifierAdresseMail($email_reg)){
+   echo "бёѕ ёг  »≈ѕќ«б ≈нгнб ќ«Ў∆°
+   ж е–« нгдЏя гд гж«’б… «б ”ћнб°
+   »«б жЁнё .";
+redirect2("register.html");
+   $_SESSION["captcha_is"] = "";
+session_destroy();
+   
+   }else{
+$select = @mysql_query("select * from {$prefix_start}members{$prefix_end}");
+$fetch= @mysql_fetch_assoc($select);
+if($name_reg == $fetch['user_name'] ){
+echo "«б≈”г «б–н √ѕќб е г”ћб бѕнд« ° н—ћм  џнн— «б≈”г
+»«б жЁнё .";
+redirect2("register.html");
+   $_SESSION["captcha_is"] = "";
+session_destroy();
+}elseif($email_reg == $fetch['email']){
+echo "бёѕ ёг  »≈ѕќ«б »—нѕ ≈бя —ждн г”ћб бѕнд« ° н—ћм  џнн—е °
+»«б жЁнё .";
+redirect2("register.html");
+   $_SESSION["captcha_is"] = "";
+session_destroy();
+}else{
+   @mysql_query("INSERT INTO {$prefix_start}members{$prefix_end} VALUES(NULL,'$name_reg','$pass_reg','$email_reg','0','$sex_reg','1','0','0','0','','$date','$date $time','1','tahoma','center','#353535','1','0','0','16','') ");
+   echo "бёѕ  г  ”ћнбя »дћ«Ќ °°
+   √еб« ж ”еб« ж г—Ќ»« »я »ндд«";
+   redirect2("islam.html");
+   $_SESSION["captcha_is"] = "";
+session_destroy();  
+   }
+      mysql_free_result($select);
+   
+   
+
+   
+   }
+   
+   }
+   
+   }
+
+
+}else{
+?>
+бёѕ ёг  »≈ѕќ«б яжѕ  Ќёё ќ«Ў∆ ж е–« нгдЏя гд гж«’б…  ”ћнбя Ён «бгд ѕм
+н—ћм ≈Џ«ѕ… гб√ Ќёб «бяжѕ гд ћѕнѕ ж »«б√—ё«г «б’ЌнЌ… 
+»«б жЁнё .
+<?
+redirect2("register.html");
+$_SESSION["captcha_is"] = "";
+session_destroy();
+}
+}?>
+<br /><br /><br /><br />
+</td>
+</tr>
+
+
+</table>
+
+
+
+

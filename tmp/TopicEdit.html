@@ -1,0 +1,116 @@
+<?
+if(level_is()>0){
+$EdT = false;
+?>
+<form method="POST" id="FormTopic"  action="RediTopic<? echo $topic ;?>.html"   >
+<table width="90%" align="center">
+<tr >
+<td class="register" colspan="2" height="28px"><center> ⁄œÌ· „Ê÷Ê⁄</td></tr>
+<tr >
+<td class="register"  height="28px"><center>⁄‰Ê«‰ «·‰’</td>
+<td class="regis"  height="28px"><center><input name="topictitle" size="55" value="<?=@Topic("title",$topic,"");?>" /></td>
+</tr>
+<tr>
+<td colspan="2"class="editor_regis" ><center>
+<?if($Ccondition->topfr()){?>
+<font color="#0000CC" size="2" >
+<input type="checkbox" name="pin" <? if(Topic("pinstatus",$topic,"") == "1"){echo"checked='checked'";}?> value="1"/>„À»  &nbsp;&nbsp;
+<input type="checkbox" name="hide" <? if(Topic("hidestatus",$topic,"") == "1"){echo"checked='checked'";}?> value="1"/>„Œ›Ì &nbsp;&nbsp;
+<input type="checkbox" name="locke" <? if(Topic("lockstatus",$topic,"") == "1"){echo"checked='checked'";}?> value="1"/>„ﬁ›· &nbsp;&nbsp;&nbsp;&nbsp;
+</font><?}?><br />
+<fieldset>
+<legend><font color="#CC0000" face="tahoma" size="2"><b> Õﬂ„ ›Ì «·‰’</b></font></legend>
+<center>
+
+<a class="editor"href="javascript:editorCommand('topic', 'StrikeThrough', '');"><img title="Œÿ „‘ÿÊ»" src="edicons/strike.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'italic', '');"><img title="Œÿ „«∆·" src="edicons/I.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'underline', '');"><img title=" ”ÿÌ— ⁄·Ï «·Œÿ" src="edicons/U.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'bold', '');"><img title="Œÿ €·ÌŸ" src="edicons/B.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyright', '');"><img title=" ‰”Ìﬁ Ì„Ì‰" src="edicons/right.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifycenter', '');"><img title=" ‰”Ìﬁ Ê”ÿ" src="edicons/center.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyleft', '');"><img title=" ‰”Ìﬁ Ì”«—" src="edicons/left.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyfull', '');"><img title=" ‰”Ìﬁ ⁄«œÌ" src="edicons/justify.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'insertorderedlist', '');"><img title=" ‰”Ìﬁ Ì”«—" src="edicons/numeric.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'insertunorderedlist', '');"><img title=" ‰”Ìﬁ ⁄«œÌ" src="edicons/point.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'copy', '');"><img title="‰”Œ" src="edicons/copie.png"/></a>
+<a  class="editor" href="javascript:NewWindow({width:878,height:276,text:showSmilleDiv('topic')});"><img title="≈ŸÂ«— «·≈» ”«„« " src='edicons/smille/smiley-wink.png'/></a>
+<a href="javascript:color();" class="editor" ><img title="·Ê‰ Œ«’" src='edicons/color.png'/></a>
+<a href="javascript:NewWindow({Width:878,Height:421,text:showTableDiv('topic')});" class="editor" ><img title="≈‰‘«¡ ÃœÊ·" src='edicons/table.png'/></a>
+<a class="editor" href="javascript:NewWindow({width:567,height:354,text:FenSymBoll('topic')});"><img title="«·—„Ê“" src='edicons/symbol.png'/></a>
+<a class="editor" href="javascript:dir('topic', 'rtl');" ><img title=" — Ì» ⁄—»Ì" src='edicons/rtl.png'/></a>
+<a class="editor" href="javascript:dir('topic', 'ltr');" ><img title=" — Ì» √Ã‰»Ì" src='edicons/ltr.png'/></a>
+<a class="editor" href="javascript:NewWindow({width:786,height:376,text:BigWin('topic')});"><img title="≈÷«›… √œÊ« " src="edicons/specialNode.png"/></a>
+<a class="editor" href="javascript:NewWindow({width:567,height:276,text:FenColor('topic'),Call:ObC(),Editeur:'topic'});" ><img title="√·Ê«‰ √”«”Ì…" src='edicons/colorutext.png'/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'undo', null);"><img title="⁄Êœ… ··Ê—«¡" src="edicons/New/back.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'delete', '');"><img title="Õ–›" src="edicons/New/eface.png"/></a>
+<br />
+<select  class="select" onchange="javascript:editorCommand('topic', 'FontSize',this.value)">
+ <option>ÕÃ„ «·Œÿ</option>
+ <option value="2">2</option>
+ <option value="3">3</option>
+ <option value="4">4</option>
+ <option value="5">5</option>
+ <option value="6">6</option>
+  <option value="7">7</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('topic', 'Fontname',this.value)">
+ <option>‰„ÿ «·Œÿ</option>
+ <option value="arial"  style="font-family:arial;">arial</option>
+ <option value="tahoma"  style="font-family:tahoma;">Tahoma</option>
+ <option value="courier"  style="font-family:courier;">courier</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('topic', 'ForeColor',this.value)">
+ <option>√·Ê«‰ «› —«÷Ì…</option>
+ <option value="000000" style="color:#000000;">√”Êœ</option>
+ <option value="FFFFFF"style="color:#FFFFFF;">√»Ì÷</option>
+ <option value="800000"style="color:#800000;">»‰Ì</option>
+ <option value="FF0000"style="color:#FF0000;">√Õ„—</option>
+ <option value="FF00FF"style="color:#FF00FF;">Ê—œÌ</option>
+ <option value="FF99CC"style="color:#FF99CC;">Ê—œÌ ›« Õ</option>
+ <option value="FF6600"style="color:#FF6600;">»— ﬁ«·Ì</option>
+ <option value="FFCC00"style="color:#FFCC00;">»— ﬁ«·Ì „’›—</option>
+ <option value="99CC00"style="color:#99CC00;">√Œ÷— „’›—</option>
+ <option value="FFFF00"style="color:#FFFF00;">√’›—</option>
+ <option value="008000"style="color:#008000;">√Œ÷— œ«ﬂ‰</option>
+ <option value="00FF00"style="color:#00FF00;">√Œ÷—</option>
+ <option value="0000FF"style="color:#0000FF;">√“—ﬁ</option>
+ <option value="00CCFF"style="color:#00CCFF;">√“—ﬁ ”„«ÊÌ</option>
+ <option value="800080"style="color:#800080;">»‰›”ÃÌ</option>
+ <option value="808080"style="color:#808080;">—„«œÌ</option>
+ </select>
+</center>
+ </fieldset>
+<br />
+<br />
+</td>
+</tr>
+<tr>
+<td colspan="2" class="editor_regis"><center>
+<div style="width:987px;height:500px;" id="place_editor" >
+<script>
+displayEditor('topic', '<link rel="stylesheet" type="text/css" href="styles_f/IEstyles_blue.css"><?=@htmlspecialchars_decode(Topic("contenu",$topic,""));?>', 987, 500);
+</script>
+</div>
+</td>
+</tr>
+<tr>
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+?></td>
+<td class="regis" ><center>
+<input name="TopicCaptcha" size="42" value="√ﬂ » «·ﬂÊœ «·„ﬁ«»· Â‰«" Onclick="this.value ='';" />
+</td>
+</tr>
+<? $_SESSION["captcha_is"] = intval($captcha) ; ?>
+<tr >
+<td class="register" colspan="2" ><center>
+<input class="buton" type="submit" value="≈—”«·" OnClick="javascript:sendvalue('topic','texttopic');" />&nbsp;&nbsp; <input class="buton" type="reset" value=" ›—Ì€"/>
+<textarea cols="0" rows="0"  style="display:none;" id="texttopic" name="texttopic"></textarea>
+</td>
+</tr>
+</table>
+</form>
+<?}else{
+@include("{$table_folder["templates"]}error.html");
+}?>

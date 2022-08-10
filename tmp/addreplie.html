@@ -1,0 +1,176 @@
+<?php
+if($page == "Newreplie" and @intval($topic) != "0" and $_SESSION["areplie"] == true){
+$_SESSION["areplie"] = false ;
+?>
+<br /><br />
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«·… ≈œ«—Ì…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<?
+$contenu_replie = @mysql_real_escape_string($_POST["replie"]);
+if(level_is() > 1) $sts =intval(1); elseif((member_on('topic')+member_on('post')) > 100 ) $sts =intval(1); else $sts =intval(0);
+if(empty($contenu_replie)){
+echo '·ﬁœ √œŒ·  »Ì«‰«  €Ì— ﬂ«›Ì… ·≈÷«›… «·—œ
+<br />
+<a class="urlforum" href="topic'.$topic.'.html">≈÷€ÿ Â‰« ··⁄Êœ… ··„Ê÷Ê⁄</a><br />
+<a class="urlforum" href="islam.html">≈÷€ÿ Â‰« ··«‰ ﬁ«· ··’›Õ… «·—∆Ì”Ì…</a><br />
+<br /><br />';
+}else{
+ @mysql_query("insert into {$prefix_start}replie{$prefix_end} VALUES ('','".@intval($topic)."','".member_on("id")."','$contenu_replie','0','$date','$time','0','0','0','0','$sts')");
+  @mysql_query("UPDATE {$prefix_start}forum{$prefix_end} SET post = post+1  where id='".@Topic('reli',$topic,"")."' ");
+  @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET post = post+1  where id='".@intval($topic)."' ");
+  @mysql_query("UPDATE {$prefix_start}members{$prefix_end} SET post = post+1  where id='".@member_on("id")."' ");
+ $select_post = @mysql_query("select * from {$prefix_start}lastpost_t{$prefix_end} where reli='$topic' ");
+ if( @mysql_num_rows($select_post) > 0){
+ @mysql_query("UPDATE   {$prefix_start}lastpost_t{$prefix_end} SET memberid = '".@member_on("id")."'  where reli='$topic'");
+ @mysql_query("UPDATE   {$prefix_start}lastpost_t{$prefix_end} SET date = '$date'  where reli='$topic'");
+  @mysql_query("UPDATE  {$prefix_start}lastpost_t{$prefix_end} SET time = '$gmtime'  where reli='$topic'");
+ }else{
+ @mysql_query("insert into {$prefix_start}lastpost_t{$prefix_end} Values ('','".@member_on("id")."','$topic','$time','$date')");
+ }
+  @mysql_query("UPDATE   {$prefix_start}lastpost{$prefix_end} SET memberid = '".@member_on("id")."'  where reli='".@Topic('reli',$topic,"")."' ");
+ @mysql_query("UPDATE   {$prefix_start}lastpost{$prefix_end} SET date = '$date'  where reli='".@Topic('reli',$topic,"")."' ");
+  @mysql_query("UPDATE  {$prefix_start}lastpost{$prefix_end} SET time = '$gmtime'  where reli='".@Topic('reli',$topic,"")."' ");
+ echo ' „ ≈÷«›… «·—œ »‰Ã«Õ
+<br />
+<a class="urlforum" href="topic'.$topic.'.html">≈÷€ÿ Â‰« ··⁄Êœ… ··„Ê÷Ê⁄</a><br />
+<a class="urlforum" href="islam.html">≈÷€ÿ Â‰« ··«‰ ﬁ«· ··’›Õ… «·—∆Ì”Ì…</a><br />
+<br /><br />';
+}
+@redirect2("topic$topic.html");
+?>
+</td>
+</tr>
+</table><br /><br />
+<?
+}elseif($page == "editReplie"  and @intval($replie) >0){
+?>
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«·… ≈œ«—Ì…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<form method="POST" name="replieditor" action="seditr-<?=intval($replie);?>.html">
+<fieldset style="width:867px">
+<legend><font color="#CC0000" face="tahoma" size="2"><b> Õﬂ„ ›Ì «·‰’</b></font></legend>
+<center>
+<a class="editor"href="javascript:editorCommand('replie', 'StrikeThrough', '');"><img title="Œÿ „‘ÿÊ»" src="edicons/strike.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'italic', '');"><img title="Œÿ „«∆·" src="edicons/I.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'underline', '');"><img title=" ”ÿÌ— ⁄·Ï «·Œÿ" src="edicons/U.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'bold', '');"><img title="Œÿ €·ÌŸ" src="edicons/B.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyright', '');"><img title=" ‰”Ìﬁ Ì„Ì‰" src="edicons/right.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifycenter', '');"><img title=" ‰”Ìﬁ Ê”ÿ" src="edicons/center.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyleft', '');"><img title=" ‰”Ìﬁ Ì”«—" src="edicons/left.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'justifyfull', '');"><img title=" ‰”Ìﬁ ⁄«œÌ" src="edicons/justify.png"/></a>
+<a class="editor"href="javascript:editorCommand('replie', 'copy', '');"><img title="‰”Œ" src="edicons/copie.png"/></a>
+<br />
+<select  class="select" onchange="javascript:editorCommand('replie', 'FontSize',this.value)">
+ <option>ÕÃ„ «·Œÿ</option>
+ <option value="2">2</option>
+ <option value="3">3</option>
+ <option value="4">4</option>
+ <option value="5">5</option>
+ <option value="6">6</option>
+  <option value="7">7</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('replie', 'Fontname',this.value)">
+ <option>‰„ÿ «·Œÿ</option>
+ <option value="arial"  style="font-family:arial;">arial</option>
+ <option value="tahoma"  style="font-family:tahoma;">Tahoma</option>
+ <option value="courier"  style="font-family:courier;">courier</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('replie', 'ForeColor',this.value)">
+ <option>√·Ê«‰ «› —«÷Ì…</option>
+ <option value="000000" style="color:#000000;">√”Êœ</option>
+ <option value="FFFFFF"style="color:#FFFFFF;">√»Ì÷</option>
+ <option value="800000"style="color:#800000;">»‰Ì</option>
+ <option value="FF0000"style="color:#FF0000;">√Õ„—</option>
+ <option value="FF00FF"style="color:#FF00FF;">Ê—œÌ</option>
+ <option value="FF99CC"style="color:#FF99CC;">Ê—œÌ ›« Õ</option>
+ <option value="FF6600"style="color:#FF6600;">»— ﬁ«·Ì</option>
+ <option value="FFCC00"style="color:#FFCC00;">»— ﬁ«·Ì „’›—</option>
+ <option value="99CC00"style="color:#99CC00;">√Œ÷— „’›—</option>
+ <option value="FFFF00"style="color:#FFFF00;">√’›—</option>
+ <option value="008000"style="color:#008000;">√Œ÷— œ«ﬂ‰</option>
+ <option value="00FF00"style="color:#00FF00;">√Œ÷—</option>
+ <option value="0000FF"style="color:#0000FF;">√“—ﬁ</option>
+ <option value="00CCFF"style="color:#00CCFF;">√“—ﬁ ”„«ÊÌ</option>
+ <option value="800080"style="color:#800080;">»‰›”ÃÌ</option>
+ <option value="808080"style="color:#808080;">—„«œÌ</option>
+ </select>
+</center><br />
+ </fieldset><br /><br />
+  &nbsp; <script>displayEditor('replie', '<?=replie("contenu",$replie);?>', 770, 300);</script>
+  <br />
+  <input class="buton" type="submit" size="34" value="≈÷«›… —œ ÃœÌœ" OnClick="javascript:sendvalue('replie','replio');" style="width:123px;"/>
+  <textarea cols="0" rows="0" style="display:none;" name="replie" id="replio"></textarea>
+  <? $_SESSION["areplie"] = true; ?>
+  </form>
+</td>
+</tr>
+</table>
+<?PHP
+}elseif($page == "seteditReplie"  and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	@define("Rep", editor($_POST["replie"]));
+	update(' „  €ÌÌ— «·—œ »‰Ã«Õ',"replie",'contenu',Rep,$replie);
+		echo "</div>";
+	@redirect2("topic".replie("reli",$replie).".html");
+}elseif($page == "setReplie"  and @intval($topic) > 0 and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	update(' „ «·„Ê«›ﬁ… ⁄·Ï «·—œ »‰Ã«Õ',"replie",'status','1',$replie);
+	insert_visad("ﬁ«„ »«·„Ê«›ﬁ… ⁄·Ï —œ —ﬁ„ : $replie ");echo "</div>";
+	@redirect2("topic".$topic.".html");
+}elseif($page == "hideReplie"  and @intval($topic) > 0 and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	update(' „ «·≈Œ›«¡ »‰Ã«Õ',"replie",'hidestatus','1',$replie);
+	insert_visad("ﬁ«„ »≈Œ›«¡ „Ê÷Ê⁄ —ﬁ„ : $replie ");echo "</div>";
+	@redirect2("topic".$topic.".html");
+}elseif($page == "unhideReplie"  and @intval($topic) > 0 and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	update(' „ «·≈Œ›«¡ »‰Ã«Õ',"replie",'hidestatus','0',$replie);
+	insert_visad("ﬁ«„ »≈Œ›«¡ „Ê÷Ê⁄ —ﬁ„ : $replie ");echo "</div>";
+	@redirect2("topic".$topic.".html");
+}elseif($page == "delReplie"  and @intval($topic) > 0 and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	update(' „ «·≈Œ›«¡ »‰Ã«Õ',"replie",'delstatus','1',$replie);
+	insert_visad("ﬁ«„ »≈Œ›«¡ „Ê÷Ê⁄ —ﬁ„ : $replie ");echo "</div>";
+	@redirect2("topic".$topic.".html");
+}elseif($page == "bckReplie"  and @intval($topic) > 0 and @intval($replie) >0){
+?>
+<br /><div class="error" ><br />
+<?PHP
+	update(' „ «·≈Œ›«¡ »‰Ã«Õ',"replie",'delstatus','0',$replie);
+	insert_visad("ﬁ«„ »≈Œ›«¡ „Ê÷Ê⁄ —ﬁ„ : $replie ");echo "</div>";
+	@redirect2("topic".$topic.".html");
+}else{
+@redirect();
+}
+
+
+
+
+?>
+

@@ -1,0 +1,50 @@
+<br /><br />
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>ÑÓÇáÉ ÅÏÇÑíÉ
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<?
+$EdT = true;
+$title_topic = protection($_POST["topictitle"]);
+$text  = mysql_real_escape_string($_POST["texttopic"]);
+$cap = intval($_POST['TopicCaptcha']);
+$pin = intval($_POST['pin']);
+$hide = intval($_POST['hide']);
+$locke = intval($_POST['locke']);
+$writer = member_on("id");
+
+if(empty($title_topic) or empty($text) or empty($cap) or $_SESSION["captcha_is"] != $cap ){
+echo 'ÇáÈíÇäÇÊ ÛíÑ ßÇİíÉ áÊÚÏíá ÇáãæÖæÚ
+<br />
+<a class="urlforum" href="topic'.intval($topic).'.html">ÅÖÛØ åäÇ ááÚæÏÉ ááãæÖæÚ</a><br />
+<a class="urlforum" href="islam.html">ÅÖÛØ åäÇ ááÇäÊŞÇá ááÕİÍÉ ÇáÑÆíÓíÉ</a><br />
+<br /><br />
+';
+ @redirect2("edit$topic.html");
+}else{
+$_SESSION["captcha_is"] = "";
+ @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET title='$title_topic'  where id='$topic'");
+ @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET contenu='$text'  where id='$topic'");
+ if(level_is()>="14"){
+ @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET pinstatus='$pin'  where id='$topic'");
+ @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET hidestatus='$hide'  where id='$topic'");
+ @mysql_query("UPDATE {$prefix_start}topic{$prefix_end} SET lockstatus='$locke'  where id='$topic'");
+ }
+echo 'Êã ÊÚÏíá ÇáãæÖæÚ ÈäÌÇÍ
+<br />
+<a class="urlforum" href="topic'.intval($topic).'.html">ÅÖÛØ åäÇ ááÚæÏÉ ááãæÖæÚ</a><br />
+<a class="urlforum" href="islam.html">ÅÖÛØ åäÇ ááÇäÊŞÇá ááÕİÍÉ ÇáÑÆíÓíÉ</a><br />
+<br /><br />
+';
+ @redirect2("topic$topic.html");
+}
+
+?>
+</td>
+</tr></table>

@@ -1,0 +1,105 @@
+<br /><br />
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«б… ≈ѕ«—н…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<?PHP
+ if( level_is()>0 and $page == "infomem"){?>
+<form method="post" name="regi" action="set_newinfo.html">
+<pre>
+<font color="red">
+ »”г «ббе «б—Ќгд «б—Ќнг
+«б”б«г Џбняг ж —Ќг… «ббе  Џ«бм ж »—я« е</font>
+√еб« »я Ён ’ЁЌ… »н«д«  «бќ«’… :
+гбЌжў… :  г гдЏ  џнн— «б√”г«Ѕ° б џнн— ≈”гя ≈ ’б »«б≈ѕ«—….
+<table width="52%" cellpadding="2" cellspacing="2">
+<tr >
+<td class="register" width="152px" height="28px"><center>«б≈”г</td>
+<td class="regis" ><center><input name="name" size="42" disabled="disabled" value="<?=member_on("user_name");?>" /></td>
+</tr>
+
+<tr >
+<td class="register" width="152px" height="28px"><center>«бябг… «б”—н… «бЌ«бн…</td>
+<td class="regis" ><center><input name="pass" type="password" size="42" /></td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>«бябг… «б”—н… «бћѕнѕ…</td>
+<td class="regis" ><center><input name="newpasse" type="password" size="42" /></td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>«б»—нѕ «б«бя —ждн</td>
+<td class="regis" ><center><input name="email"  size="42" disabled="disabled" value="<?=substr(member_on("email") , -12);?>...???" />
+</td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>«б’ж—… «б‘ќ’н…</td>
+<td class="regis" ><center><input name="img" size="42" value="<?=member_on("img");?>" /></td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>«бћд”</td>
+<td class="regis" ><center>
+<?PHP if(member_on("type") == "male") echo "<b>–я—</b>";else echo "<b>√дЋм</b>"; ?>
+</td>
+</tr>
+<tr >
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+?></td>
+<td class="regis" ><center>
+<input name="captcha" size="42" Onclick="document.regi.captcha.value='';" value="√я » «бяжѕ «бгё«»б ед«"/>
+</td>
+</tr>
+<tr >
+<td class="regis" colspan="2" ><center>
+<input class="buton" type="submit" value="≈—”«б"/> &nbsp;&nbsp; <input class="buton" type="reset" value=" Ё—нџ"/>
+</td>
+</tr>
+<? $_SESSION["captcha_is"] = $captcha ; ?>
+</table>
+</form>
+
+<?PHP   
+}elseif( level_is()>0 and $page == "setinfomem"){
+$_pass = md6($_POST["pass"]);
+$_img = @protection_simple($_POST["img"]);
+$_password = md6($_POST["newpasse"]);
+$_captch = @protection_simple($_POST["captcha"]);
+$_lastpass = member_on("password");
+if($_SESSION["captcha_is"] == $_captch){
+   if(empty($_img)){
+   echo "<b>бёѕ  —я  «Ќѕм «бќ«д«  Ё«—џ… ° ж »е–« «б‘яб <br />
+   бд н г  Џѕнб «б»н«д«  «Ўб«ё«°<br />
+   »«б жЁнё </b>
+   ";
+	}else{
+	   if(!empty($_pass) and !empty($_password)){
+		if($_pass != $_lastpass){
+		echo "бг н г  џнн— «бябг… «б”—н…° б√де« џн— гЎ«»ё… б”ћб« д«";
+		}else{
+			@update("","members","password",$_password,member_on("id"));	
+			@session_destroy();
+			}	
+	   }
+	@update(" г  Џѕнб »н«д« я »дћ«Ќ .","members","img",$_img,member_on("id"));
+   }
+
+   }else{
+?><b>
+бёѕ ёг  »≈ѕќ«б яжѕ  Ќёё ќ«Ў∆ ж е–« нгдЏя гд гж«’б…  ”ћнбя Ён «бгд ѕм<br />
+н—ћм ≈Џ«ѕ… гб√ Ќёб «бяжѕ гд ћѕнѕ ж »«б√—ё«г «б’ЌнЌ… <br />
+»«б жЁнё .</b>
+<?PHP
+ }
+	@redirect2("islam.html");
+	$_SESSION["captcha_is"] = "";
+ }else @redirect(); ?>
+ </td>
+</tr>
+</table>

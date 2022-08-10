@@ -1,0 +1,108 @@
+<br /><br />
+
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«·… ≈œ«—Ì…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<?
+ if(empty($login)){
+?>
+<pre>
+<font color="red">
+ »”„ «··Â «·—Õ„‰ «·—ÕÌ„
+«·”·«„ ⁄·Ìﬂ„ Ê —Õ„… «··Â  ⁄«·Ï Ê »—ﬂ« Â</font>
+√Â·« Ê ”Â·« »ﬂ ›Ì ’›Õ…  ”ÃÌ· «·œŒÊ· ··„‰ œÌ«  :
+<form method="post" name="login" action="setlogin.html">
+<table width="52%" cellpadding="2" cellspacing="2">
+<tr >
+<td class="register" width="152px" height="28px"><center>«·≈”„</td>
+<td class="regis" ><center><input name="login_name"  size="42" />
+</td>
+</tr>
+<tr >
+<td class="register" width="152px" height="28px"><center>«·ﬂ·„… «·”—Ì…</td>
+<td class="regis" ><center><input type="password" name="login_password"  size="42" />
+</td>
+</tr>
+<tr >
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+?></td>
+<td class="regis" ><center>
+<input name="login_captcha" size="42" value="√ﬂ » «·ﬂÊœ «·„ﬁ«»· Â‰«" Onclick="document.login.login_captcha.value='';" />
+</td>
+</tr>
+<? $_SESSION["captcha_is"] = intval($captcha) ; ?>
+<tr >
+<td class="regis" colspan="2" ><center>
+<input class="buton" type="submit" value="≈—”«·"/> &nbsp;&nbsp; <input class="buton" type="reset" value=" ›—Ì€"/>
+</td>
+</tr>
+</table></form>
+
+<?
+ }elseif($login=="insert"){
+$login_names=@protection($_POST["login_name"]);
+$login_passwords= md6($_POST["login_password"]);
+$login_captchas=@protection($_POST["login_captcha"]);
+if($_SESSION["captcha_is"] == $login_captchas){
+
+   if(empty($login_names) or empty($login_passwords)){
+   echo "<br /><br />
+   <div class='error'> 
+   <img src='".$icons."false.png' />
+   ·„  ﬁ„ »„·√ «·»Ì«‰«  ﬂ„« Ì‰»€Ì 
+   </div><br /><br />";
+redirect2("login.html");
+$_SESSION["captcha_is"] = "";
+session_destroy();
+   }else{
+   $query= @mysql_query("select * from {$prefix_start}members{$prefix_end} where user_name='$login_names' and password='$login_passwords' ");
+   if( @mysql_num_rows($query)>0){
+   $_SESSION["name_is"] = $login_names;
+   $_SESSION["pass_is"] = $login_passwords;
+   echo"
+   <br /><br /><div class='yes'>
+   <img src='".$icons."true.png' />
+    „  ”ÃÌ· «·œŒÊ· »‰Ã«Õ °√Â·« »ﬂ Ì« : $login_names  </div>
+   <br /><br />";
+     redirect2("islam.html");
+$_SESSION["captcha_is"] = "";
+   }else{
+  echo "<br /><br /><div class='error'>
+  <img src='".$icons."false.png' />
+  «·»Ì«‰«  «· Ì √œŒ· Â« €Ì— „ Ê›—… ›Ì ”Ã·« ‰«
+  </div><br /><br />
+  ";
+redirect2("login.html");
+$_SESSION["captcha_is"] = "";
+session_destroy();
+   }
+   mysql_free_result($query);
+   }
+
+}else{
+echo"<br /><br /><div class='error'>
+<img src='".$icons."false.png' />
+ﬂÊœ  Õﬁﬁ Œ«ÿ∆ °√⁄œ «œŒ«· «·»Ì«‰«  „‰ ÃœÌœ 
+</div><br /><br />";
+redirect2("login.html");
+$_SESSION["captcha_is"] = "";
+session_destroy();
+
+}
+ }else{
+  redirect();
+ }
+
+?>
+</td>
+</tr>
+</table>

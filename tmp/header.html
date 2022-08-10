@@ -1,0 +1,89 @@
+<html dir="rtl" >
+<head >
+<link rel="stylesheet" type="text/css" href="styles_f/IEstyles_blue.css">
+<?if($page=="forum" and $forum !="0" and $topic=="new" OR @intval($topic) != "0" OR @intval($replie) != "0"){?>
+<script type="text/javascript" src="eded.js"></script>
+<script type="text/javascript">
+ Memberalign = '<? echo @member_on("align");?>';
+ Memberfont = '<? echo @member_on("font");?>';
+ Membercolor = '<? echo @member_on("color");?>';
+ Memberbold =<? echo @member_on("bold");?>;
+ Memberitalic = <? echo @member_on("italic");?>;
+ Memberunderlign =<? echo @member_on("underligne");?>;
+ Memberfontsize = <? echo @member_on("size");?>;
+</script>
+<?PHP }
+if($page=="contactf" and $forum !="0" and empty($topic) ) echo '<script type="text/javascript" language="javascript" src="eded.js"></script>';?>
+<META CONTENT="text/html; charset=windows-1256" HTTP-EQUIV="Content-Type">
+<title>منتديات أحرف الإسلام</title>
+<?PHP if($page == "member" or @intval($topic) != "0"){ ?>
+<script type="text/javascript" lang="javascript">
+	var member_titles = [<?PHP if(@member_on("titles") != ""){ @titles(@member_on("titles"));}
+	?>];
+</script><?}?>
+</head>
+
+<body <?if($page=="forum" and $forum!="0" and $topic=="new"){?>onload="editorCommand('topic', 'justifyright', '');"<?}?> marginheight="0" marginwidth="0" width="100%" >
+<center>
+<div id="printForum" style="margin:0px;">
+<table class="headere" width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td class="header" >&nbsp;<br /></td>
+</tr>
+<tr>
+<td class="urlmheader">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="islam.html" class="urlheader"><b>الرئيسية</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="forum3.html" class="urlheader"><b>مساعدة</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<?if($_SESSION["name_is"]==""){?>
+<a href="register.html" class="urlheader"><b>التسجيل</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="login.html" class="urlheader"><b>دخول</a>
+<?}else{
+if(level_is() == 55){
+?>
+<a href="admin<? echo $_SESSION["user_name"] ;?>" class="urlheader"><b>إدارتك</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<?
+}elseif(level_is() == 96){
+?>
+<a href="idara_is_printforum/admiiin.login.php?login=admiin_login_admiin_login" class="urlheader"><b>إدارتك</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<?
+}
+?>
+<a href="infomember.html" class="urlheader"><b>البيانات</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="logout.html" class="urlheader"><b>خروج</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<?}?>
+</td>
+</tr>
+<tr>
+<td >
+<br /><br /><br />
+</td>
+</tr>
+</table>
+</center>
+<div  class="web">
+<? if($web_cookies == "websport"){
+?>
+<a href="forumall.html" ><img  title="المنتديات العامة" src="<? echo $icons?>/forum.png" /></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<?
+}else{?>
+<a href="forumsport.html"><img title="المنتديات الرياضية" src="<? echo $icons?>/sport.png"/></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<?}?>
+</div>
+<?
+if(level_is()>0){
+?>
+<div class="usert">&nbsp;&nbsp;<font color="#F7F7F7">الإسم :</font>&nbsp;&nbsp;<? echo member_on("user_name");?></div>
+<div class="usert2">&nbsp;&nbsp;<font color="#F7F7F7">المشاركات : </font>&nbsp;&nbsp;<? echo member_on("post") + member_on("topic"); ?> </div>
+<?PHP if(level_is() >= 14){?>
+<div class="icons">
+<a href="monitor.html" class="inforum"><img title="خدمات" src="<?=$icons;?>/info.png"/></a>
+</div><?PHP }}?>
+<center>

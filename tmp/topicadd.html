@@ -1,0 +1,67 @@
+<br /><br />
+<table width="100%" >
+<tr>
+<td class="forum">
+<center>—”«·… ≈œ«—Ì…
+</td>
+</tr>
+<tr>
+<td class="message">
+<center>
+<br />
+<?
+
+$title_topic = protection($_POST["topictitle"]);
+$text  = mysql_real_escape_string($_POST["texttopic"]);
+$icons_To = $_POST["icons_Tp"];
+$cap = intval($_POST['TopicCaptcha']);
+$pin = intval($_POST['pin']);
+$hide = intval($_POST['hide']);
+$locke = intval($_POST['locke']);
+$stars = intval($_POST['stars']);
+if(empty($icons_To)){
+$icons_Topic = $icons."folder.png" ;
+}else{
+foreach($icons_To as &$t){
+$icons_Topic =  $t ;
+}
+}
+$writer = member_on("id");
+
+if(empty($title_topic) or empty($text) or empty($cap) or $_SESSION["captcha_is"] != $cap ){
+echo '·ﬁœ √œŒ·  »Ì«‰«  €Ì— ﬂ«›Ì… ·≈÷«›… «·„Ê÷Ê⁄ 
+<br />
+<a class="urlforum" href="forum'.$forum.'.html">≈÷€ÿ Â‰« ··⁄Êœ… ··„‰ œÏ</a><br />
+<a class="urlforum" href="islam.html">≈÷€ÿ Â‰« ··«‰ ﬁ«· ··’›Õ… «·—∆Ì”Ì…</a><br />
+<br /><br />
+';
+ @redirect2("forum$forum.html");
+}else{
+$_SESSION["captcha_is"] = "";
+ if((level_is()>="14") OR (level_is() == 1 and member_on("post") + member_on("topic") >= 150 and $_SESSION["TopicType"] == false ) ){
+ @mysql_query("insert into {$prefix_start}topic{$prefix_end} Values('','$title_topic','$forum','$writer','$text','0','$icons_Topic','$date','0','$time','$hide','$locke','$stars','$pin','1')");
+ }else{
+ @mysql_query("insert into {$prefix_start}topic{$prefix_end} Values('','$title_topic','$forum','$writer','$text','0','$icons_Topic','$date','0','$time','$hide','$locke','$stars','$pin','0')"); 
+ }
+ @mysql_query("UPDATE {$prefix_start}forum{$prefix_end} SET topic = topic+1  where id='$forum'");
+ @mysql_query("UPDATE {$prefix_start}members{$prefix_end} SET topic = topic+1  where id='$writer'");
+ $select_post = @mysql_query("select * from {$prefix_start}lastpost{$prefix_end} where reli='$forum' ");
+ if( @mysql_num_rows($select_post) > 0){
+ @mysql_query("UPDATE   {$prefix_start}lastpost{$prefix_end} SET memberid = '$writer'  where reli='$forum'");
+ @mysql_query("UPDATE   {$prefix_start}lastpost{$prefix_end} SET date = '$date'  where reli='$forum'");
+  @mysql_query("UPDATE  {$prefix_start}lastpost{$prefix_end} SET time = '$gmtime'  where reli='$forum'");
+ }else{
+ @mysql_query("insert into {$prefix_start}lastpost{$prefix_end} Values ('','$writer','$forum','$time','$date')");
+ }
+ $_SESSION["TopicType"] = false ;
+echo ' „ «÷«›… «·„Ê÷Ê⁄ »‰Ã«Õ <br />
+<a class="urlforum" href="forum'.$forum.'.html">≈÷€ÿ Â‰« ··⁄Êœ… ··„‰ œÏ</a><br />
+<a class="urlforum" href="islam.html">≈÷€ÿ Â‰« ··«‰ ﬁ«· ··’›Õ… «·—∆Ì”Ì…</a><br />
+<br /><br />
+';
+ @redirect2("forum$forum.html");
+}
+
+?>
+</td>
+</tr></table>

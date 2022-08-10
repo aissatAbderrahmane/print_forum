@@ -1,0 +1,55 @@
+<?PHP if($Get_member >0 and (member($Get_member,"status") == 1 and level_is() >= 1) OR (member($Get_member,"status") == 0 and level_is() >= 14) ) {?>
+<div id="info-right">
+<table  width="100%" cellpadding="0" cellspacing="0">
+<tr >
+<td  class="forum" >
+<center><font face="tahoma" color="white" size="2">วแีๆัษ วแิฮีํษ
+</td>
+</tr>
+<tr><td class="topictext">
+<table  width="100%" cellpadding="5" cellspacing="5">
+<tr><td class="info"><?PHP if(member($Get_member,"img")){ ?>
+<img src="<?=member($Get_member,"img");?>" style="width:175px;height:250px;" />
+<?PHP }else{ ?><img src="img.png" style="width:175px;height:250px;" /><?PHP }?></td></tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div id="info-right2">
+<table  width="100%" cellpadding="0" cellspacing="0">
+<tr >
+<td  class="forum" >
+<center><font face="tahoma" color="white" size="2">วแศํวไวส วแิฮีํษ
+</td>
+</tr>
+<tr><td class="topictext">
+<table  width="100%" cellpadding="5" cellspacing="5">
+<tr><td class="info" width="200px"><b>วแลำใ</b></td><td class="info"><?=member($Get_member,"user_name");?></td></tr>
+<tr><td class="info"><b>วแใิวั฿วส</b></td><td class="info">วแัฯๆฯ: <?=member($Get_member,"post");?> - วแใๆวึํฺ : <?=member($Get_member,"topic");?></td></tr>
+<tr><td class="info"><b>ไÞวุ วแสใํา</b></td><td class="info"><?=member($Get_member,"suprnum");?></td></tr>
+<tr><td class="info"><b>วแัสศษ</b></td><td class="info">
+<?PHP
+ @define("lvlm", member($Get_member,"level"));
+if(lvlm == 96) echo "<b style='color:#0472EC;'>ใฯํั</b>";
+	elseif(lvlm == 56 ) echo "<b style='color:#EB8801;'>ใัวÞศ</b>";
+	elseif(lvlm == 14) echo "<b style='color:#D70000;'>ใิัÝ</b>";
+	elseif(lvlm == 1) echo "<b style='color:#000000;'>ฺึๆ</b>";
+	else echo "<b style='color:#555555;'>ฺึๆํษ ใÞÝๆแษ</b>";
+?>
+</td></tr>
+<tr><td class="info"><b>สวัํฮ วแสำฬํแ</b></td><td class="info"><?=member($Get_member,"register");?></td></tr>
+<tr><td class="info"><b>ยฮั าํวัษ</b></td><td class="info">
+<?
+$lastconect = explode(" ", member($Get_member,"lastconect"));
+if($lastconect[0] == $date){ echo "วแํๆใ - ";}else echo $lastconect[0]." - ";
+echo $lastconect[1];
+?></td></tr>
+<tr><td class="info"><b style="color:red;">วแรๆีวÝ</b></td><td class="info">
+ &nbsp;</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<?PHP }else @redirect();?>

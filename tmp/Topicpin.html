@@ -1,0 +1,187 @@
+<?
+if($Ccondition->repcond()){
+?><br />
+<div class="error" <? if($page=="functopic" and @intval($topic) != false)echo "style='width:720px;';";?> ><br />
+<?
+if($page=="pintopic" and @intval($topic) != false){
+@update('Êã ÊËÈíÊ ÇáãæÖæÚ ÈäÌÇÍ','topic','pinstatus','1',$topic);
+@insert_visad("ŞÇã ÈÊËÈíÊ ãæÖæÚ ÑŞã :");
+}elseif($page=="unpintopic" and @intval($topic) != false){
+@update('Êã İß ÊËÈíÊ ÇáãæÖæÚ ÈäÌÇÍ','topic','pinstatus','0',$topic);
+@insert_visad("ŞÇã Èİß ÊËÈíÊ ãæÖæÚ ÑŞã :");
+}elseif($page=="closetopic" and @intval($topic) != false){
+@update('Êã Şİá ÇáãæÖæÚ ÈäÌÇÍ','topic','lockstatus','1',$topic);
+@insert_visad("ŞÇã ÈŞİá ãæÖæÚ ÑŞã :");
+}elseif($page=="unclosetopic" and @intval($topic) != false){
+@update('Êã İÊÍ ÇáãæÖæÚ ÈäÌÇÍ','topic','lockstatus','0',$topic);
+@insert_visad("ŞÇã ÈİÊÍ ãæÖæÚ ÑŞã:");
+}elseif($page=="hidetopic" and @intval($topic) != false){
+@update('Êã ÇÎİÇÁ ÇáãæÖæÚ ÈäÌÇÍ','topic','hidestatus','1',$topic);
+@insert_visad("ŞÇã ÈÇÎİÇÁ ãæÖæÚ ÑŞã:");
+}elseif($page=="unhidetopic" and @intval($topic) != false){
+@update('Êã ÇÒÇáÉ ÇÎİÇÁ ÇáãæÖæÚ ÈäÌÇÍ','topic','hidestatus','0',$topic);
+@insert_visad("ŞÇã ÈÇÒÇáÉ ÇÎİÇÁ ãæÖæÚ ÑŞã :");
+}elseif($page=="startopic" and @intval($topic) != false){
+ 
+?>
+<form method="post" action="stars<?= @intval($topic);?>.html">
+<select class="select"  name="stars">  
+<option value="0">ÚÏÏ äÌæã </option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+ </select>
+<br /><br />
+<input class="buton" type="submit" value="ÅÑÓÇá"/> &nbsp;&nbsp; <input class="buton" type="reset" value="ÊİÑíÛ"/>
+</form>
+<?
+}elseif($page=="starstopic" and @intval($topic) != false){
+$xe = @intval($_POST["stars"]);
+@update('Êã ÇÖÇİÉ ÊŞííã ÇáãæÖæÚ ÈäÌÇÍ','topic','starstatus',$xe,$topic);
+@update('','members','suprnum',($xe*2),Topic("writer", $topic));
+@insert_visad("ŞÇã ÈÊÛííÑ ÊŞííã  Åáì $xe  äÌæã İí ãæÖæÚ ÑŞã :");
+}elseif($page=="functopic" and @intval($topic) != false){
+?>
+<font color="red" face="arial"><img  src="<?echo $icons;?>hide.png"/>&nbsp;ÊÚÊÈÑ åÊå ÕİÍÉ ¡ åí ÕİÍÉ åÇãÉ ÊÔÇÑß İí ÑİÚ ãä ãÚäæíÇÊ ÇáÚÖæ ¡ áĞÇ íÑÌì ÇÓÊÚãÇáåÇ ÈÍßãÉ.<br />
+ááÚáã ÚäÏ äŞá Ãí ãæÖæÚ ÓíÊã äŞáå ÃæÊæãÇÊíßíÇ ãÎİíÇ ¡ áßí íÓÊØíÚ ÇáãÔÑİ ÇáÂÎÑ ãÊÇÈÚÉ ÇáãæÖæÚ æ ãÍÊæÇå .</font><br /><br />
+<form method="post" name="ft" action="editfunc<?= @intval($topic);?>.html">
+<table width="680px" cellpadding="2" cellspacing="2">
+<tr >
+<td class="register" width="210px" height="28px"><center>
+ÚäæÇä ÇáãæÖæÚ
+</td>
+<td class="regis" ><center>
+<input name="titletop" size="50" value="<?= Topic("title",$topic,"");?>" />
+</td>
+</tr>
+<tr >
+<td class="register"  width="210px" height="28px"><center>
+ÇáãäÊÏì
+</td>
+<td class="regis" ><center>
+<? $forum_sql = @mysql_query("select * from {$prefix_start}forum{$prefix_end} where status='1' OR status='3' ");?>
+<select class="select" name="forums">
+<? while($fetch = @mysql_fetch_array($forum_sql)){?>
+<option value="<?= @intval($fetch["id"]);?>"><?= @protection($fetch["title"]);?></option>
+<?}?></select>
+</td>
+</tr>
+<tr >
+<td class="register"  width="210px" height="28px"><center>
+ÃíŞæäÉ ÇáãæÖæÚ
+</td>
+<td class="regis" ><center><br />
+ÇáÃíŞæäÉ ÇáÍÇáíÉ : &nbsp; &nbsp; <img title="ãæÖæÚ" src="<?= Topic("icon",$topic,"");?>" />
+<br /><br />
+<input type="radio" name="icons_Tp[]"  value='edicons/smille/tick.png'><img src='edicons/smille/tick.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/tick.png'><img src='edicons/smille/infoo.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/question.png' ><img src='edicons/smille/question.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/thumb-up.png'><img src='edicons/smille/thumb-up.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/trophy.png'><img src='edicons/smille/trophy.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/trophy-bronze.png'><img src='edicons/smille/trophy-bronze.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/trophy-silver.png'><img src='edicons/smille/trophy-silver.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/home.png'><img src='edicons/Topic/home.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/headphone.png'><img src='edicons/Topic/headphone.png'/></input>
+<br /><br />
+<input type="radio" name="icons_Tp[]" value='edicons/smille/snowman-hat.png'><img src='edicons/smille/snowman-hat.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/terminal.png'><img src='edicons/smille/terminal.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/television.png'><img src='edicons/smille/television.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/palette.png'><img src='edicons/Topic/palette.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/light-bulb.png'><img src='edicons/Topic/light-bulb.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/light-bulb-off.png'><img src='edicons/Topic/light-bulb-off.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/smiley-wink.png' ><img src='edicons/smille/smiley-wink.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/globe-network.png'><img src='edicons/Topic/globe-network.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/graphic-card.png'><img src='edicons/Topic/graphic-card.png'/></input>
+<br /><br />
+<input type="radio" name="icons_Tp[]" value='edicons/smille/code.png'><img src='edicons/smille/code.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/smille/picture.png'><img src='edicons/smille/picture.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/images-stack.png'><img src='edicons/Topic/images-stack.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/film.png'><img src='edicons/Topic/film.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/flask-empty.png'><img src='edicons/Topic/flask-empty.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/globe-model.png'><img src='edicons/Topic/globe-model.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/hourglass.png'><img src='edicons/Topic/hourglass.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/lifebuoy.png'><img src='edicons/Topic/lifebuoy.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/mail.png'><img src='edicons/Topic/mail.png'/></input>
+<br /><br />
+</td>
+</tr>
+<tr >
+<td class="register"  width="210px" height="28px"><center>
+ÃíŞæäÇÊ ÇáÊãíÒ
+</td>
+<td class="regis" ><center>
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/medal.png'><img title="ãÊãíÒ Úáì ÇáãäÊÏì" src='edicons/Topic/medal.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/point.png'><img title="ãÊãíÒ Úáì 5 ãäÊÏíÇÊ" src='edicons/Topic/point.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/ruby.png'><img title="ãÊãíÒ Úáì ßá ãäÊÏíÇÊ ÇáİÆÉ" src='edicons/Topic/ruby.png'/></input>&nbsp;&nbsp;
+<input type="radio" name="icons_Tp[]" value='edicons/Topic/share.png'><img title="ÊãíÒ ÇáßÇãá" src='edicons/Topic/share.png'/></input>
+
+</td>
+</tr>
+<tr >
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+
+?></td>
+<td class="regis" ><center>
+<input name="captcha" size="50" Onclick="document.ft.captcha.value='';" value="ÃßÊÈ ÇáßæÏ ÇáãŞÇÈá åäÇ"/>
+<? $_SESSION["captcha_is"] = @intval($captcha) ; ?>
+</td>
+</tr>
+<tr >
+<td class="regis" colspan="2" ><center>
+<input class="buton" type="submit" value="ÅÑÓÇá"/> &nbsp;&nbsp; <input class="buton" type="reset" value="ÊİÑíÛ"/>
+</td>
+</tr>
+</table>
+</form>
+<?
+}elseif($page=="eftopic" and @intval($topic) != false){
+$captcha_t = @intval($_POST["captcha"]);
+$forums_t = @intval($_POST["forums"]);
+$title_t = @protection($_POST["titletop"]);
+$icons_To = $_POST["icons_Tp"];
+
+if($captcha_t == $_SESSION["captcha_is"] ){
+$_SESSION["captcha_is"] = "";
+if(findcat($topic,"forum") != $forums_t){
+@update('','topic','reli',$forums_t,$topic);
+@update('','topic','hidestatus','1',$topic);
+}
+@update('Êã ÇÖÇİÉ ÇáÊÚÏíáÇÊ ÈäÌÇÍ','topic','title',$title_t,$topic);
+
+foreach($icons_To as &$t){
+$icons_Topic =  $t ;
+}
+if(!empty($icons_Topic)){
+@update('','topic','icon',$icons_Topic,$topic);
+}
+}else{
+echo "áã ÊŞã ÈÇÏÎÇá ßæÏ ÊÍŞŞ ßãÇ íäÈÛí";
+@redirect();
+}
+?>
+<br /></div>
+<?
+}elseif($page=="opntop" and @intval($topic) != false){
+@update('Êã ÇáãæÇİŞÉ Úáì ÇáãæÖæÚ ÈäÌÇÍ','topic','status','1',$topic);
+}elseif($page=="deltopic" and @intval($topic) != false){
+@update('Êã ÍĞİ ÇáãæÖæÚ ÈäÌÇÍ','topic','status','2',$topic);
+redirect2("forum".@topic("reli",$topic).".html");
+}elseif($page=="bactopic" and @intval($topic) != false){
+@update('Êã ÇÓÊÑÌÇÚ ÇáãæÖæÚ ÈäÌÇÍ','topic','status','1',$topic);
+redirect2("topic".@intval($topic).".html");
+}elseif($page=="pubtopic" and @intval($topic) != false){
+@update('Êã ÑİÚ ØáÈ ÅÖÇİÉ ÅÚáÇä ááãæÖæÚ Åáì ÇáÅÏÇÑÉ','topic','status','3',$topic);
+redirect2("topic".@intval($topic).".html");
+}else{
+@include("{$table_folder["templates"]}error.html");
+}
+
+}else{
+@include("{$table_folder["templates"]}error.html");
+}
+?><br />
+</div><br /><br />

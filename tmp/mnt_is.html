@@ -1,0 +1,169 @@
+<br /><br />
+<?if($Ccondition->topfr()){?>
+<table width="100%" >
+<tr>
+<td class="forum_ad">
+&nbsp;&nbsp;<center> ֵַֹֿׁ : <? echo forum("title",$forum);?></center>
+</td>
+</tr>
+<tr>
+<td class="message_ad">
+<center>
+<br />
+<pre>
+<font color="red">
+ ָ׃ד ַבבו ַבֽׁדה ַבֽׁםד
+ַב׃בַד Úבםßד ז ֽׁדֹ ַבבו ÊÚַבל ז ָׁßַÊו</font>
+ֳובַ  ז ׃ובַ ז דַָֽׁ ָß Ýם ֵַֿׁÊß בבדהÊֿל ַב׀ם ÊװׁÝ Úבםו.
+</center><!---->
+<table width="25%"  class="admin">
+<tr>
+<td class="forum_ad">
+<center>&nbsp;&nbsp; בזֹֽ ַבֶׁם׃םֹ
+</td>
+</tr>
+<tr>
+<td class="message_ad">
+<center>
+<pre>
+
+<a class="url_admin" href="admintopic<?PHP echo $forum;?>.html">Êֽßד Ýם ַבדזַײםÚ</a>
+
+<a class="url_admin" href="islam.php?page=monitor&monitor=admin&function=medals&forum=">ַבֳז׃דֹ</a>
+
+<a class="url_admin" href="titles-<?=$forum;?>.html">ַבֳזױַÝ</a>
+
+</td>
+</tr>
+</table>
+<!---->
+<center>
+<table width="65%" class="admin_text">
+<tr>
+<td class="forum_ad">
+<center>&nbsp;&nbsp;ַבֳֿזַÊ ז ַבבזֹֽ</center>
+</td>
+</tr>
+<tr>
+<td class="message_ad"><!--MSG-->
+<center>
+<br />
+
+<br />
+<? if($forum != "0" and $topic == "monitored" and $pg>="0" ){
+#########PAGE ############
+if($pg==0 or empty($pg)){
+$limit="LIMIT 0,10";
+}else{
+$x = ($pg * 10);
+$limit="LIMIT $x,$x";
+}
+
+##########END PAGE#########
+$select_Topic= @mysql_query("select * from {$prefix_start}topic{$prefix_end} where reli='$forum' ORDER BY pinstatus DESC,id DESC,date DESC,time DESC $limit");
+?>
+<table width="80%"  cellpadding="2" cellspacing="2">
+<tr >
+<td class="register" colspan="2" height="28" ><center>
+Êֽßד Ýם ַבדזַײםÚ
+</td>
+</tr>
+<? if(@mysql_num_rows($select_Topic)>0){
+while($fetch_Topic = @mysql_fetch_array($select_Topic)){
+$statust = Topic("status",$fetch_Topic["id"],$forum);
+$hidestatus = Topic("hidestatus",$fetch_Topic["id"],$forum);
+$lockstatus = Topic("lockstatus",$fetch_Topic["id"],$forum);
+$pinstatus  = Topic("pinstatus",$fetch_Topic["id"],$forum);
+$adwriter = protection(stripslashes($fetch_Topic['title'])); 
+?>
+<tr >
+<td class="regis" ><center> 
+<a class="urlforum" title="ׁÞד : <? echo @intval($fetch_Topic["id"]);?>" href="topic<? echo intval($fetch_Topic['id']);?>.html"><?
+ if(strlen($adwriter) <= 24){
+ echo $adwriter;
+ }else{
+echo substr($adwriter,0,24)."...";
+ }
+ 
+ ?></a> &nbsp;&nbsp; || &nbsp;&nbsp; ַבßַÊָ : <? echo @member_inf($fetch_Topic["writer"])?> </td>
+<td class="regis" width="200px" height="28px"><center>
+<?if($statust == "0" and $pinstatus == "0"){?>
+<a href="ontopi<? echo @intval($fetch_Topic["id"]);?>.html"><img title="דזַÝÞֹ Úבל ַבדזײזÚ" src="<?echo $icons;?>Shortkey.png"/></a>
+&nbsp;&nbsp;
+<?
+}elseif($pinstatus == "1"){
+?><a href="unpin<? echo @intval($fetch_Topic["id"]);?>.html"><img title="Ýß דה ÊָֻםÊ" src="<?echo $icons;?>pin--minus.png"/></a>
+&nbsp;&nbsp;
+<?}elseif($pinstatus == "0"){?>
+<a href="pin<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ÊָֻםÊ ַבדזײזÚ" src="<?echo $icons;?>pin--plus.png"/></a>
+&nbsp;&nbsp;<?}?>
+<?
+if($lockstatus =="0"){
+?>
+<a href="close<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ÞÝב ַבדזײזÚ" src="<?echo $icons;?>lock.png"/></a>
+&nbsp;&nbsp;
+<?}elseif($lockstatus =="1"){?>
+<a href="unclose<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ÝÊֽ ַבדזײזÚ" src="<?echo $icons;?>unlock.png"/></a>
+&nbsp;&nbsp;<?}?>
+<a href="star<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ÊÚֿםב ÊÞםםד ַבדזײזÚ" src="<?echo $icons;?>ton.png"/></a>
+&nbsp;&nbsp;
+<a href="functions<? echo @intval($fetch_Topic["id"]);?>.html"><img title="Êֽßד Ýם דדםַׂÊ ַבדזײזÚ" src="<?echo $icons;?>send.png"/></a>
+&nbsp;&nbsp;
+<?if($hidestatus == "0"){?>
+<a href="hide<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ֵ־Ýֱַ דזײזÚ" src="<?echo $icons;?>hide.png"/></a>
+&nbsp;&nbsp;
+<?}elseif($hidestatus == "1"){?>
+<a href="unhide<? echo @intval($fetch_Topic["id"]);?>.html"><img title="ֵÙוַׁ ַבדזײזÚ" src="<?echo $icons;?>dishide.png"/></a>
+&nbsp;&nbsp;<?}?>
+</td>
+</tr>
+<?}
+}else{?>
+<tr >
+<td class="regis" ><center><font color="red">בַ םזּֿ דזַײםÚ ַֽבםַ ַָבדהÊֿל ַב׀ם ÊװׁÝ Úבםו.</td>
+</tr>
+<?
+}?>
+</table><br />
+<?
+@pg($forum,"admintopic");
+print"<br /><br />";
+}?>
+</center>
+</td>
+</tr>
+</table></center>
+<!---->
+<table width="25%"  class="admin">
+<tr>
+<td class="forum_ad">
+<center>&nbsp;&nbsp; בזֹֽ ÝׁÚםֹ
+</td>
+</tr>
+<tr>
+<td class="message_ad">
+<center>
+<pre>
+
+<a class="url_admin" href="islam.php?page=monitor&monitor=admin&function=tphid&forum=">דזַײםÚ ַבד־Ýםֹ</a>
+
+<a class="url_admin" href="islam.php?page=monitor&monitor=admin&function=msg&forum=">ָׁםֿ ַבדהÊֿל</a>
+
+<a class="url_admin" href="islam.php?page=monitor&monitor=admin&function=info&forum=">ַֽױֶַםַÊ Úה ַבדהÊֿל</a>
+
+</td>
+</tr>
+</table>
+<!---->
+
+
+</td>
+</tr>
+</table>
+<?}else{
+@include("{$table_folder["templates"]}error.html");
+}?>
+
+
+
+

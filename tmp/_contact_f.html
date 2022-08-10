@@ -1,0 +1,110 @@
+<?
+if(forum('groupe',$forum) == "0" and level_is()>="0" OR forum('groupe',$forum) != "0" and level_is()>=forum('groupe',$forum)){
+$_SESSION["cpatcha"] = $captcha;
+?>
+<script type="text/javascript">
+$(document).ready(function(){
+$('fieldset.smilles').hide();
+$('a#smill').click(function(){$('fieldset.smilles').slideToggle();});
+});
+</script>
+<form name="login" action="addTopic<? echo $forum ;?>.html" method="post" >
+<table width="90%" align="center">
+<tr >
+<td class="register" colspan="2" height="28px"><center>≈—”«· —”«·… ≈·Ï ≈‘—«› : <?=protection(forum("title",$forum));?></td></tr>
+<tr >
+<td class="register"  height="28px"><center>⁄‰Ê«‰ «·‰’</td>
+<td class="regis"  height="28px"><center><input name="topictitle" size="55"/></td>
+</tr>
+<tr>
+<td colspan="2"class="editor_regis" ><center>
+<fieldset>
+<legend><font color="#CC0000" face="tahoma" size="2"><b> Õﬂ„ ›Ì «·‰’</b></font></legend>
+<center>
+<a class="editor"href="javascript:editorCommand('topic', 'StrikeThrough', '');"><img title="Œÿ „‘ÿÊ»" src="edicons/strike.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'italic', '');"><img title="Œÿ „«∆·" src="edicons/I.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'underline', '');"><img title=" ”ÿÌ— ⁄·Ï «·Œÿ" src="edicons/U.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'bold', '');"><img title="Œÿ €·ÌŸ" src="edicons/B.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyright', '');"><img title=" ‰”Ìﬁ Ì„Ì‰" src="edicons/right.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifycenter', '');"><img title=" ‰”Ìﬁ Ê”ÿ" src="edicons/center.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyleft', '');"><img title=" ‰”Ìﬁ Ì”«—" src="edicons/left.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'justifyfull', '');"><img title=" ‰”Ìﬁ ⁄«œÌ" src="edicons/justify.png"/></a>
+<a class="editor"href="javascript:editorCommand('topic', 'copy', '');"><img title="‰”Œ" src="edicons/copie.png"/></a>
+<a class="editor" id="smill"><img title="≈ŸÂ«— «·≈» ”«„« " src='edicons/smille/smiley-wink.png'/></a>
+<br />
+<select  class="select" onchange="javascript:editorCommand('topic', 'FontSize',this.value)">
+ <option>ÕÃ„ «·Œÿ</option>
+ <option value="2">2</option>
+ <option value="3">3</option>
+ <option value="4">4</option>
+ <option value="5">5</option>
+ <option value="6">6</option>
+  <option value="7">7</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('topic', 'Fontname',this.value)">
+ <option>‰„ÿ «·Œÿ</option>
+ <option value="arial"  style="font-family:arial;">arial</option>
+ <option value="tahoma"  style="font-family:tahoma;">Tahoma</option>
+ <option value="courier"  style="font-family:courier;">courier</option>
+ </select>
+ <select  class="select" onchange="javascript:editorCommand('topic', 'ForeColor',this.value)">
+ <option>√·Ê«‰ «› —«÷Ì…</option>
+ <option value="000000" style="color:#000000;">√”Êœ</option>
+ <option value="FFFFFF"style="color:#FFFFFF;">√»Ì÷</option>
+ <option value="800000"style="color:#800000;">»‰Ì</option>
+ <option value="FF0000"style="color:#FF0000;">√Õ„—</option>
+ <option value="FF00FF"style="color:#FF00FF;">Ê—œÌ</option>
+ <option value="FF99CC"style="color:#FF99CC;">Ê—œÌ ›« Õ</option>
+ <option value="FF6600"style="color:#FF6600;">»— ﬁ«·Ì</option>
+ <option value="FFCC00"style="color:#FFCC00;">»— ﬁ«·Ì „’›—</option>
+ <option value="99CC00"style="color:#99CC00;">√Œ÷— „’›—</option>
+ <option value="FFFF00"style="color:#FFFF00;">√’›—</option>
+ <option value="008000"style="color:#008000;">√Œ÷— œ«ﬂ‰</option>
+ <option value="00FF00"style="color:#00FF00;">√Œ÷—</option>
+ <option value="0000FF"style="color:#0000FF;">√“—ﬁ</option>
+ <option value="00CCFF"style="color:#00CCFF;">√“—ﬁ ”„«ÊÌ</option>
+ <option value="800080"style="color:#800080;">»‰›”ÃÌ</option>
+ <option value="808080"style="color:#808080;">—„«œÌ</option>
+ </select>
+</center>
+ </fieldset>
+
+ <fieldset class="smilles">
+<legend><font color="#CC0000" face="tahoma" size="2"><b>«·≈» ”«„« </b></font></legend>
+<center>
+<? echo smille();?>
+</center>
+ </fieldset>
+<br />
+</td>
+</tr>
+<tr>
+<td colspan="2" class="editor_regis"><center>
+<div style="width:770px;height:500px;"  >
+<script>
+displayEditor('topic', '', 770, 500);
+</script>
+</div>
+</td>
+</tr>
+<tr>
+<td class="register" dir="ltr" width="152px" height="28px"><center>
+<? 
+echo $capt;
+?></td>
+<td class="regis" ><center>
+<input name="login_captcha" size="42" value="√ﬂ » «·ﬂÊœ «·„ﬁ«»· Â‰«" Onclick="document.login.login_captcha.value='';" />
+</td>
+</tr>
+<? $_SESSION["captcha_is"] = intval($captcha) ; ?>
+<tr >
+<td class="register" colspan="2" ><center>
+<input class="buton" onclick="sendvalue('topic');" type="submit" value="≈—”«·"/> &nbsp;&nbsp; <input class="buton" type="reset" value=" ›—Ì€"/>
+</td>
+</tr>
+</table>
+<textarea cols="0" rows="0" id="texttopic" style="display:none;" name="texttopic"></textarea>
+</form>
+<?}else{
+@redirect();
+}?>

@@ -1,0 +1,179 @@
+<?
+if(forum('groupe',$forum) == "0" and level_is()>="0" OR forum('groupe',$forum) != "0" and level_is()>=forum('groupe',$forum)){
+?>
+<br /><br />
+<?if(level_is() >0){?>
+<div align="left">
+<?
+/* ≈ ’«· »«·„‘—›Ì‰
+if(level_is()=="96" OR level_is()== "55" OR level_is()== "1" OR level_is() == "14" and forum_moderator($forum) == false){?>
+<a  class="inforum" href="contact-forum<?=$forum;?>.html">
+<img  title="≈ ’«· »«·≈‘—«›" src="<? echo $icons?>/email_add.png" />
+</a>
+<?
+}
+if($Ccondition->topfr()){
+?>
+<a class="inforum" href="islam.php?page=index&pg=1">
+<img  title="»—Ìœ «·„‰ œÏ" src="<? echo $icons?>/message_in.png" />
+</a>
+<?
+}*/?>
+<a class="inforum" href="newTopic<?echo $forum;?>.html" >
+<img  title="„Ê÷Ê⁄ ÃœÌœ" src="<? echo $icons?>/topic.png" />
+</a>
+<?
+if($Ccondition->topfr()){
+?>
+<a class="inforum" href="administration<? echo $forum;?>.html">
+<img  title="≈œ«—… «·„‰ œÏ" src="<? echo $icons?>/idara_forum.png" />
+</a>
+<?
+}
+
+?>
+</div>
+<?
+}
+?>
+<table  width="100%" cellpadding="0" cellspacing="0">
+<tr >
+
+
+
+<td  class="forum">
+<table  width="100%">
+<tr>
+<td width="68%">
+<center><font face="tahoma" color="white" size="2">
+«·„Ê÷Ê⁄
+</td>
+<td width="17%" >
+<center><font face="tahoma" color="white" size="2">
+«·—œÊœ
+</td>
+<td width="15%" >
+<center><font face="tahoma" color="white" size="2">
+¬Œ— „‘«—ﬂ…
+</td>
+
+</tr>
+</table>
+</td>
+
+
+</tr>
+<!-- star -->
+<?
+#########PAGE ############
+if($pg==0 or empty($pg)){
+$limit="LIMIT 0,20";
+}else{
+$x = ($pg * 20);
+$limit="LIMIT $x,$x";
+}
+
+##########END PAGE#########
+if(level_is() <= "1" OR level_is() == "55" and member_on("id") != supervisor($cat_id_frm,"cat","memberid") OR level_is() == "14" AND forum_moderator($forum) == false OR level_is() == "55" and member_on("id") != supervisor($forum,"forum","memberid")){
+$slt_Top = @mysql_query("select * from {$prefix_start}topic{$prefix_end} where reli ='$forum' and hidestatus = '0' and status = '1' ORDER BY pinstatus DESC,id DESC,date DESC,time DESC $limit ");
+}elseif(level_is()=="96" OR level_is() == "55" and member_on("id") == supervisor($cat_id_frm,"cat","memberid") OR  level_is() == "14" AND forum_moderator($forum) == true OR level_is() == "55" and member_on("id") == supervisor($forum,"forum","memberid")){
+$slt_Top = @mysql_query("select * from {$prefix_start}topic{$prefix_end} where reli ='$forum'  ORDER BY pinstatus DESC,id DESC,date DESC,time DESC $limit ");
+}
+	  
+if(@mysql_num_rows($slt_Top)>0){
+while($ftc_Top = @mysql_fetch_array($slt_Top)){
+?>
+<tr>
+<td class="infos">
+
+<table  width="100%">
+<tr  height="38px">
+<td <? @css($ftc_Top['id'],'topic'); ?> width="7%" >
+<center>
+
+<?
+if(Topic("status",$ftc_Top["id"],$forum)=="0"){
+?>
+<img title="Â–« „Ê÷Ê⁄ ·„   „ „Ê«›ﬁ… ⁄·ÌÂ „‰ ÿ—› «·„‘—› »⁄œ" src="<?echo $icons;?>notyet.png"/>
+<?
+}elseif(Topic("lockstatus",$ftc_Top["id"],$forum)=="1"){
+?>
+<img title="Â–« „Ê÷Ê⁄ „ﬁ›·" src="<?echo $icons;?>lock.png"/>
+<?
+}elseif(Topic("status",$ftc_Top["id"],$forum)=="2"){
+?>
+<img title="Â–« „Ê÷Ê⁄ „Õ–Ê›" src="<?echo $icons;?>Trash.png"/>
+<?
+}else{
+?>
+<img title="Êﬁ  ﬂ «»… «·„Ê÷Ê⁄ :<? echo protection($ftc_Top['time']);?>" src="<? echo protection($ftc_Top['icon']);?>" />
+<?
+}
+?>
+</td>
+<td <? @css($ftc_Top['id'],'topic'); ?> width="55%">
+<table width="100%">
+<tr>
+<td width="80%">
+<a class="urlforum" href="topic<? echo @intval($ftc_Top['id']);?>.html"><? echo @protection(stripslashes($ftc_Top['title'])); ?></a>
+<br /><font color="red" size="1"><b>«·ﬂ« » :</b></font> <? @member_inf($ftc_Top["writer"]); ?>
+</td>
+<td>
+
+<?
+$startuts = @Topic("starstatus",$ftc_Top["id"],$forum);
+@starforum($startuts);
+
+if(Topic("pinstatus",$ftc_Top["id"],$forum) == "1"){?>
+&nbsp;&nbsp;<a href="topic<? echo @intval($ftc_Top['id']);?>.html"><img title="Â–« „Ê÷Ê⁄ „À» " src="<?echo $icons;?>pin.png"/></a>
+<?}elseif(Topic("status",$ftc_Top["id"],$forum)=="3" && level_is()>=14){
+?>
+&nbsp;&nbsp;<img title="Â–« „Ê÷Ê⁄ Ì‰ Ÿ— „Ê«›ﬁ… «·«œ«—… ·Ì „ «÷«› Â «·Ï «·«⁄·«‰« " src="<?echo $icons;?>pub.png"/>
+<?
+}?>
+</td>
+</tr>
+</table>
+</td>
+<td <? @css($ftc_Top['id'],'topic'); ?> width="15%" >
+<center><? echo @intval($ftc_Top['post']);?>
+</td>
+<td <? @css($ftc_Top['id'],'topic'); ?> width="15%" >
+<center><? @lastPost($ftc_Top['id'],'topic');?> &nbsp;
+</td>
+</tr>
+</table>
+
+
+</td>
+</tr>
+<?}
+}else{
+?>
+<tr>
+<td class="infos"><br />
+<center> Â–« «·„‰ œÏ ·« ÌÕ ÊÌ ⁄·Ï „Ê«÷Ì⁄ Õ«·Ì«<br /><br /> 
+</td>
+</tr>
+<?
+}
+?>
+<!-- END-->
+
+
+</table><br />
+<?
+@pg($forum,"");
+}else{
+@include("{$table_folder["templates"]}error.html");
+}?>
+<br /><br />
+
+
+
+
+
+
+
+
+
